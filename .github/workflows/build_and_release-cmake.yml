@@ -2,10 +2,18 @@ name: Build and Release CMake
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - 'thirdfeatures/**'  # Triggers the workflow for branches starting with 'thirdfeatures/'
   pull_request:
-    branches: [ "main" ]
-  workflow_dispatch: # Permite que o workflow seja acionado manualmente
+    branches:
+      - 'thirdfeatures/**'  # Triggers the workflow for pull requests targeting branches starting with 'thirdfeatures/'
+  workflow_dispatch:  # Allows manual triggering of the workflow
+    inputs:
+      feature_name:
+        description: 'Name of the feature for the branch'
+        required: true
+        default: 'default-feature'
+        type: string
 
 jobs:
   build:
@@ -39,7 +47,6 @@ jobs:
     - name: Check out Git repository
       uses: actions/checkout@v4
       with:
-        # Limitar o checkout para um commit específico e não permitir o checkout de PRs de forks
         fetch-depth: 1
 
     - name: Set up CMake
@@ -64,7 +71,6 @@ jobs:
     - name: Check for vulnerabilities
       run: |
         echo "Checking for vulnerabilities..."
-        # Integre aqui ferramentas de análise estática ou dinâmica, como SonarQube ou Snyk
         snyk test --all-projects
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -73,9 +79,7 @@ jobs:
       if: failure()
       run: |
         echo "Build or tests failed! Notify team and check logs for details."
-        # Adicione aqui código para enviar notificações, por exemplo, via e-mail ou integração com um canal de comunicação
       env:
-        # Configure aqui variáveis de ambiente para notificações, se necessário
         NOTIFICATION_API_KEY: ${{ secrets.NOTIFICATION_API_KEY }}
 
     - name: Clean up
