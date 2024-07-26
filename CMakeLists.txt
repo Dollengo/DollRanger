@@ -59,11 +59,18 @@ include_directories(external)
 if(NOT TINYOBJ_PATH)
   message(
     STATUS
-      "TINYOBJ_PATH not specified in .env.cmake, using external/tinyobjloader")
-  set(TINYOBJ_PATH external/tinyobjloader)
+      "TINYOBJ_PATH not specified in .env.cmake, using src/tinyobjloader")
+  set(TINYOBJ_PATH src/tinyobjloader)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+# Adding new libraries
+include_directories(${PROJECT_SOURCE_DIR}/src/sdl_mixer)
+include_directories(${PROJECT_SOURCE_DIR}/src/sling_shot_community)
+include_directories(${PROJECT_SOURCE_DIR}/src/qtbase)
+include_directories(${PROJECT_SOURCE_DIR}/src/physics)
+include_directories(${PROJECT_SOURCE_DIR}/src/flecs)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -82,7 +89,12 @@ if(WIN32)
 
   target_include_directories(
     ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src ${Vulkan_INCLUDE_DIRS}
-                           ${TINYOBJ_PATH} ${GLFW_INCLUDE_DIRS} ${GLM_PATH})
+                           ${TINYOBJ_PATH} ${GLFW_INCLUDE_DIRS} ${GLM_PATH}
+                           ${PROJECT_SOURCE_DIR}/src/SDL_mixer
+                           ${PROJECT_SOURCE_DIR}/src/sling_shot_community
+                           ${PROJECT_SOURCE_DIR}/src/QtBase
+                           ${PROJECT_SOURCE_DIR}/src/physics
+                           ${PROJECT_SOURCE_DIR}/src/flecs})
 
   target_link_directories(${PROJECT_NAME} PUBLIC ${Vulkan_LIBRARIES}
                           ${GLFW_LIB})
@@ -91,7 +103,12 @@ if(WIN32)
 elseif(UNIX)
   message(STATUS "CREATING BUILD FOR UNIX")
   target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src
-                                                    ${TINYOBJ_PATH})
+                                                    ${TINYOBJ_PATH}
+                                                    ${PROJECT_SOURCE_DIR}/src/SDL_mixer
+                                                    ${PROJECT_SOURCE_DIR}/src/sling_shot_community
+                                                    ${PROJECT_SOURCE_DIR}/src/QtBase
+                                                    ${PROJECT_SOURCE_DIR}/src/physics
+                                                    ${PROJECT_SOURCE_DIR}/src/flecs})
   target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES})
 endif()
 
