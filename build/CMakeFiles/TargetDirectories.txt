@@ -1,4 +1,0 @@
-/media/dollengo/Dados/Projetos/Cpp/DollRanger/build/CMakeFiles/DollRanger.dir
-/media/dollengo/Dados/Projetos/Cpp/DollRanger/build/CMakeFiles/Shaders.dir
-/media/dollengo/Dados/Projetos/Cpp/DollRanger/build/CMakeFiles/edit_cache.dir
-/media/dollengo/Dados/Projetos/Cpp/DollRanger/build/CMakeFiles/rebuild_cache.dir
