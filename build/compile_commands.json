@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/drMain.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/drMain.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/drMain.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_buffer.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_buffer.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_buffer.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_camera.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_camera.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_camera.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_descriptors.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_descriptors.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_descriptors.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_device.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_device.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_device.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_first_app.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_first_app.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_first_app.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_game_object.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_game_object.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_game_object.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_keyboard_movement_controller.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_keyboard_movement_controller.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_keyboard_movement_controller.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_model.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_model.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_model.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_pipeline.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_pipeline.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_pipeline.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_renderer.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_renderer.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_renderer.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_swap_chain.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_swap_chain.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_swap_chain.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/dr_window.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_window.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/dr_window.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/systems/dr_point_light_system.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/systems/dr_point_light_system.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/systems/dr_point_light_system.cpp"
+},
+{
+  "directory": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/build",
+  "command": "/usr/bin/c++ -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/src -I/media/dollengo/Dados/Projetos/Cpp/DollRanger/external/tinyobjloader -g -o CMakeFiles/DollRanger.dir/src/systems/dr_simple_render_system.cpp.o -c /media/dollengo/Dados/Projetos/Cpp/DollRanger/src/systems/dr_simple_render_system.cpp",
+  "file": "/media/dollengo/Dados/Projetos/Cpp/DollRanger/src/systems/dr_simple_render_system.cpp"
+}
+]

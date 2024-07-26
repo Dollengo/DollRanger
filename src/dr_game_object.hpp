@@ -1,0 +1,93 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2024, Dollengo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Please support independent developers by not copying or illegally distributing
+their code. The development community relies on mutual support and respect to
+thrive and continue innovating. Software piracy not only financially harms the
+creators but also discourages the creation of new projects and collaboration
+within the community.
+
+By respecting licenses and contributing fairly, you are helping to ensure that
+open-source projects continue to be developed and improved. Your integrity and
+support are vital for the growth and success of small and independent developers.
+Thank you for doing your part.
+*/
+
+#pragma once
+
+#include "dr_model.hpp"
+
+#include <glm/gtc/matrix_transform.hpp>
+
+#include <memory>
+#include <unordered_map>
+
+namespace dr {
+
+struct TransformComponent {
+  glm::vec3 translation{};
+  glm::vec3 scale{1.f, 1.f, 1.f};
+  glm::vec3 rotation{};
+
+  glm::mat4 mat4();
+
+  glm::mat3 normalMatrix();
+};
+
+struct PointLightComponent {
+  float lightIntensity = 1.0f;
+};
+
+class drGameObject {
+ public:
+  using id_t = unsigned int;
+  using Map = std::unordered_map<id_t, drGameObject>;
+
+  static drGameObject createGameObject() {
+    static id_t currentId = 0;
+    return drGameObject{currentId++};
+  }
+
+  static drGameObject makePointLight(
+      float intensity = 10.f, float radius = 0.1f, glm::vec3 color = glm::vec3(1.f));
+
+  drGameObject(const drGameObject &) = delete;
+  drGameObject &operator=(const drGameObject &) = delete;
+  drGameObject(drGameObject &&) = default;
+  drGameObject &operator=(drGameObject &&) = default;
+
+  id_t getId() { return id; }
+
+  glm::vec3 color{};
+  TransformComponent transform{};
+
+  // Optional pointer components
+  std::shared_ptr<drModel> model{};
+  std::unique_ptr<PointLightComponent> pointLight = nullptr;
+
+ private:
+  drGameObject(id_t objId) : id{objId} {}
+
+  id_t id;
+};
+}  // namespace dr

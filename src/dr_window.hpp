@@ -1,0 +1,71 @@
+/*
+The MIT License (MIT)
+
+Copyright (c) 2024, Dollengo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+Please support independent developers by not copying or illegally distributing
+their code. The development community relies on mutual support and respect to
+thrive and continue innovating. Software piracy not only financially harms the
+creators but also discourages the creation of new projects and collaboration
+within the community.
+
+By respecting licenses and contributing fairly, you are helping to ensure that
+open-source projects continue to be developed and improved. Your integrity and
+support are vital for the growth and success of small and independent developers.
+Thank you for doing your part.
+*/
+
+#pragma once
+
+#define GLFW_INCLUDE_VULKAN
+#include <GLFW/glfw3.h>
+
+#include <string>
+namespace dr {
+
+class drWindow {
+ public:
+  drWindow(int w, int h, std::string name);
+  ~drWindow();
+
+  drWindow(const drWindow &) = delete;
+  drWindow &operator=(const drWindow &) = delete;
+
+  bool shouldClose() { return glfwWindowShouldClose(window); }
+  VkExtent2D getExtent() { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }
+  bool wasWindowResized() { return framebufferResized; }
+  void resetWindowResizedFlag() { framebufferResized = false; }
+  GLFWwindow *getGLFWwindow() const { return window; }
+
+  void createWindowSurface(VkInstance instance, VkSurfaceKHR *surface);
+
+ private:
+  static void framebufferResizeCallback(GLFWwindow *window, int width, int height);
+  void initWindow();
+
+  int width;
+  int height;
+  bool framebufferResized = false;
+
+  std::string windowName;
+  GLFWwindow *window;
+};
+}  // namespace dr
