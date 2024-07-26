@@ -1,0 +1,85 @@
+name: Build and Release CMake
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Permite que o workflow seja acionado manualmente
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Release]
+        c_compiler: [gcc, clang, cl]
+        include:
+          - os: windows-latest
+            c_compiler: cl
+            cpp_compiler: cl
+          - os: ubuntu-latest
+            c_compiler: gcc
+            cpp_compiler: g++
+          - os: ubuntu-latest
+            c_compiler: clang
+            cpp_compiler: clang++
+        exclude:
+          - os: windows-latest
+            c_compiler: gcc
+          - os: windows-latest
+            c_compiler: clang
+          - os: ubuntu-latest
+            c_compiler: cl
+
+    steps:
+    - name: Check out Git repository
+      uses: actions/checkout@v4
+      with:
+        # Limitar o checkout para um commit específico e não permitir o checkout de PRs de forks
+        fetch-depth: 1
+
+    - name: Set up CMake
+      run: |
+        cmake --version
+        cmake -B build -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }} -DCMAKE_C_COMPILER=${{ matrix.c_compiler }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -S .
+
+    - name: Build
+      run: cmake --build build --config ${{ matrix.build_type }}
+
+    - name: Test
+      working-directory: build
+      run: ctest --build-config ${{ matrix.build_type }}
+
+    - name: Upload build artifacts
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: build/
+
+    - name: Check for vulnerabilities
+      run: |
+        echo "Checking for vulnerabilities..."
+        # Integre aqui ferramentas de análise estática ou dinâmica, como SonarQube ou Snyk
+        snyk test --all-projects
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "Build or tests failed! Notify team and check logs for details."
+        # Adicione aqui código para enviar notificações, por exemplo, via e-mail ou integração com um canal de comunicação
+      env:
+        # Configure aqui variáveis de ambiente para notificações, se necessário
+        NOTIFICATION_API_KEY: ${{ secrets.NOTIFICATION_API_KEY }}
+
+    - name: Clean up
+      if: always()
+      run: |
+        echo "Cleaning up..."
+        rm -rf build/
