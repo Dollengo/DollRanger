@@ -41,6 +41,14 @@ Thank you for doing your part.
 #include "dr_renderer.hpp"
 #include "dr_window.hpp"
 
+#include "flecs/flecs.h"
+#include "physics/handle.hpp"
+#include "sling-shot-community/handle.hpp"
+#include "tinyobjloader/tiny_obj_loader.h"
+#include "sdl_mixer/music.h"
+#include "sdl_mixer/mixer.h"
+#include "imgui/imgui.h"
+
 #include <memory>
 #include <vector>
 
