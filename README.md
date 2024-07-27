@@ -9,7 +9,7 @@
     <img src="https://img.shields.io/badge/sponsor-30363D?style=for-the-badge&logo=GitHub-Sponsors&logoColor=#white" />
   <a href="https://cmake.org">
    <img src="https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white" ?>
-  <a href="https://cplusplus.org">
+  <a href="https://cplusplus.com">
    <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" ?>
   <a href="#">
   <img alt="STARS" src="https://img.shields.io/github/stars/dollengo/dollranger?style=for-the-badge">
