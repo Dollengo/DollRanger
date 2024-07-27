@@ -46,6 +46,20 @@ Thank you for doing your part.
 #include <glm/glm.hpp>
 #include <glm/gtc/constants.hpp>
 
+/*
+You need import these libraries in your main archive, for you use all the libraries functions
+
+#include "flecs/flecs.h" // ECS
+#include "physic_collision/handle.hpp" // Physics and Collision
+#include "tinyobjloader/tiny_obj_loader.h" // obj loader
+#include "sdl_mixer/music.h" // musics
+#include "sdl_mixer/mixer.h" // mixer
+#include "sdl_mixer/utils.h" // sdl_mixer utils
+#include "sdl_mixer/effects_internal.h" // effects_internal
+#include "imgui/imgui.h" // gui/UI
+#include "qtbase/corelib/global/qglobal.h" // qt: for ui/gui
+*/
+
 #include <array>
 #include <cassert>
 #include <chrono>

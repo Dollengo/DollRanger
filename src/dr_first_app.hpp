@@ -41,13 +41,19 @@ Thank you for doing your part.
 #include "dr_renderer.hpp"
 #include "dr_window.hpp"
 
-#include "flecs/flecs.h"
-#include "physics/handle.hpp"
-#include "sling-shot-community/handle.hpp"
-#include "tinyobjloader/tiny_obj_loader.h"
-#include "sdl_mixer/music.h"
-#include "sdl_mixer/mixer.h"
-#include "imgui/imgui.h"
+/*
+You need import these libraries in your main archive, for you use all the libraries functions
+
+#include "flecs/flecs.h" // ECS
+#include "physic_collision/handle.hpp" // Physics and Collision
+#include "tinyobjloader/tiny_obj_loader.h" // obj loader
+#include "sdl_mixer/music.h" // musics
+#include "sdl_mixer/mixer.h" // mixer
+#include "sdl_mixer/utils.h" // sdl_mixer utils
+#include "sdl_mixer/effects_internal.h" // effects_internal
+#include "imgui/imgui.h" // gui/UI
+#include "qtbase/corelib/global/qglobal.h" // qt: for ui/gui
+*/
 
 #include <memory>
 #include <vector>
