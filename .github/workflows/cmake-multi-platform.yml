@@ -159,3 +159,4 @@ jobs:
         asset_name: DollRanger-${{ env.new_version }}-x64.zip
         asset_content_type: application/zip
 
+
