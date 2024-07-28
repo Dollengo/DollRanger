@@ -131,6 +131,14 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Create tar.gz archive
+      run: |
+        tar -czvf ${{ github.workspace }}/build/DollRanger-${{ env.new_version }}-x64.tar.gz -C ${{ github.workspace }}/build .
+
+    - name: Create zip archive
+      run: |
+        zip -r ${{ github.workspace }}/build/DollRanger-${{ env.new_version }}-x64.zip ${{ github.workspace }}/build
+
     - name: Upload release assets (tar.gz)
       uses: actions/upload-release-asset@v1
       env:
