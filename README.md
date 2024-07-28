@@ -14,7 +14,7 @@
   <a href="#">
   <img alt="STARS" src="https://img.shields.io/github/stars/dollengo/dollranger?style=for-the-badge">
   <a href="#">
-  <img alt="RELEASE"  src="https://img.shields.io/badge/RELEASE-v1.0 .0-blue?style=flat-square&logoColor=white">
+  <img alt="RELEASE"  src="https://img.shields.io/badge/RELEASE-v1.0.0-blue?style=flat-square&logoColor=white">
 
 
 
