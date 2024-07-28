@@ -13,6 +13,10 @@
    <img src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" ?>
   <a href="#">
   <img alt="STARS" src="https://img.shields.io/github/stars/dollengo/dollranger?style=for-the-badge">
+  <a href="#">
+  <img alt="STARS"  src="https://img.shields.io/badge/RELEASE-v1.0 .0-blue?style=flat-square&logoColor=white">
+
+
 
 DollRanger is a powerful and versatile game engine developed to provide developers with the tools necessary to create high-quality games. With support for advanced rendering, camera control, physics systems, and more, DollRanger is an ideal choice for independent developers and small game studios.
 
