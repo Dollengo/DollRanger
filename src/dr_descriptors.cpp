@@ -103,7 +103,7 @@ DrDescriptorPool::Builder &DrDescriptorPool::Builder::setPoolFlags(
   poolFlags = flags;
   return *this;
 }
-drDescriptorPool::Builder &DrDescriptorPool::Builder::setMaxSets(uint32_t count) {
+DrDescriptorPool::Builder &DrDescriptorPool::Builder::setMaxSets(uint32_t count) {
   maxSets = count;
   return *this;
 }
@@ -221,7 +221,7 @@ bool DrDescriptorWriter::build(VkDescriptorSet &set) {
   return true;
 }
 
-void drDescriptorWriter::overwrite(VkDescriptorSet &set) {
+void DrDescriptorWriter::overwrite(VkDescriptorSet &set) {
   for (auto &write : writes) {
     write.dstSet = set;
   }
