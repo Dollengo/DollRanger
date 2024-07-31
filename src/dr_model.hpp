@@ -76,7 +76,7 @@ class DrModel {
   DrModel(const DrModel &) = delete;
   DrModel &operator=(const DrModel &) = delete;
 
-  static std::unique_ptr<dDrModel> createModelFromFile(
+  static std::unique_ptr<DrModel> createModelFromFile(
       DrDevice &device, const std::string &filepath);
 
   void bind(VkCommandBuffer commandBuffer);
