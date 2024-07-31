@@ -61,6 +61,9 @@ You need import these libraries in your main archive, for you use all the librar
 namespace dr {
 class FirstApp {
  public:
+  static constexpr int WIDTH = 800;
+  static constexpr int HEIGHT = 600;
+  const std:string name = "DollRangerTest";
 
   FirstApp();
   ~FirstApp();
@@ -72,10 +75,6 @@ class FirstApp {
 
  private:
   void loadGameObjects();
-
-  int width = 800;
-  int height = 600;
-  const std:string name = "DollRanger Test";
 
   DrWindow drWindow(int width, int height, const std::string& name);
   DrDevice drDevice(drWindow);
