@@ -13,7 +13,7 @@
 ## ImGui [visual library]:
 - https://github.com/ocornut/imgui
 
-## SDL3 [audio managment, but you can use for all]
+## SDL3 [audio managment, but you can use for all, recommended for audio managment]
 - https://github.com/libsdl-org/SDL
 
 ## Me(Tarcísio Nascimento Silva, aka Dollengo)
