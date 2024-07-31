@@ -29,10 +29,10 @@ endif()
 if(NOT Vulkan_FOUND)
   message(FATAL_ERROR "Could not find Vulkan library!")
 else()
-  message(STATUS "Using vulkan lib at: ${Vulkan_LIBRARIES}")
+  message(STATUS "Using Vulkan lib at: ${Vulkan_LIBRARIES}")
 endif()
 
-# 1. Set GLFW_PATH in .env.cmake to target specific glfw
+# 2. Set GLFW_PATH in .env.cmake to target specific glfw
 if(DEFINED GLFW_PATH)
   message(STATUS "Using GLFW path specified in .env")
   set(GLFW_INCLUDE_DIRS "${GLFW_PATH}/include")
@@ -48,91 +48,97 @@ else()
   message(STATUS "Found GLFW")
 endif()
 if(NOT GLFW_LIB)
-  message(FATAL_ERROR "Could not find glfw library!")
+  message(FATAL_ERROR "Could not find GLFW library!")
 else()
-  message(STATUS "Using glfw lib at: ${GLFW_LIB}")
+  message(STATUS "Using GLFW lib at: ${GLFW_LIB}")
 endif()
 
 include_directories(external)
 
 # If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
 if(NOT TINYOBJ_PATH)
-  message(
-    STATUS
-      "TINYOBJ_PATH not specified in .env.cmake, using src/tinyobjloader")
-  set(TINYOBJ_PATH src/tinyobjloader)
+  message(STATUS "TINYOBJ_PATH not specified in .env.cmake, using external/tinyobjloader")
+  set(TINYOBJ_PATH external/tinyobjloader)
 endif()
 
 file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
-
-# Adding new libraries
-include_directories(${PROJECT_SOURCE_DIR}/src/sdl_mixer)
-include_directories(${PROJECT_SOURCE_DIR}/src/sling_shot_community)
-include_directories(${PROJECT_SOURCE_DIR}/src/qtbase)
-include_directories(${PROJECT_SOURCE_DIR}/src/physics)
-include_directories(${PROJECT_SOURCE_DIR}/src/flecs)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
-set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY
-                                             "${CMAKE_SOURCE_DIR}/build")
+set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
 
 if(WIN32)
   message(STATUS "CREATING BUILD FOR WINDOWS")
 
   if(USE_MINGW)
-    target_include_directories(${PROJECT_NAME} PUBLIC ${MINGW_PATH}/include)
-    target_link_directories(${PROJECT_NAME} PUBLIC ${MINGW_PATH}/lib)
+    target_include_directories(${PROJECT_NAME} PUBLIC
+      ${MINGW_PATH}/include
+    )
+    target_link_directories(${PROJECT_NAME} PUBLIC
+      ${MINGW_PATH}/lib
+    )
   endif()
 
-  target_include_directories(
-    ${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src ${Vulkan_INCLUDE_DIRS}
-                           ${TINYOBJ_PATH} ${GLFW_INCLUDE_DIRS} ${GLM_PATH}
-                           ${PROJECT_SOURCE_DIR}/src/SDL_mixer
-                           ${PROJECT_SOURCE_DIR}/src/sling_shot_community
-                           ${PROJECT_SOURCE_DIR}/src/QtBase
-                           ${PROJECT_SOURCE_DIR}/src/physics
-                           ${PROJECT_SOURCE_DIR}/src/flecs})
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${Vulkan_INCLUDE_DIRS}
+    ${TINYOBJ_PATH}
+    ${GLFW_INCLUDE_DIRS}
+    ${GLM_PATH}
+  )
 
-  target_link_directories(${PROJECT_NAME} PUBLIC ${Vulkan_LIBRARIES}
-                          ${GLFW_LIB})
+  target_link_directories(${PROJECT_NAME} PUBLIC
+    ${Vulkan_LIBRARIES}
+    ${GLFW_LIB}
+  )
 
   target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1)
 elseif(UNIX)
   message(STATUS "CREATING BUILD FOR UNIX")
-  target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/src
-                                                    ${TINYOBJ_PATH}
-                                                    ${PROJECT_SOURCE_DIR}/src/SDL_mixer
-                                                    ${PROJECT_SOURCE_DIR}/src/sling_shot_community
-                                                    ${PROJECT_SOURCE_DIR}/src/QtBase
-                                                    ${PROJECT_SOURCE_DIR}/src/physics
-                                                    ${PROJECT_SOURCE_DIR}/src/flecs})
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${TINYOBJ_PATH}
+  )
   target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES})
 endif()
 
-find_program(
-  GLSL_VALIDATOR glslangValidator
-  HINTS ${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE}
-        /usr/bin
-        /usr/local/bin
-        ${VULKAN_SDK_PATH}/Bin
-        ${VULKAN_SDK_PATH}/Bin32
-        $ENV{VULKAN_SDK}/Bin/
-        $ENV{VULKAN_SDK}/Bin32/)
+############## Build SHADERS #######################
 
-file(GLOB_RECURSE GLSL_SOURCE_FILES "${PROJECT_SOURCE_DIR}/shaders/*.frag"
-     "${PROJECT_SOURCE_DIR}/shaders/*.vert")
+# Find the glslangValidator executable
+find_program(GLSL_VALIDATOR glslangValidator HINTS 
+  ${VULKAN_SDK_PATH}/Bin 
+  ${VULKAN_SDK_PATH}/Bin32 
+  /usr/bin 
+  /usr/local/bin 
+  $ENV{VULKAN_SDK}/Bin/ 
+  $ENV{VULKAN_SDK}/Bin32/
+)
 
-foreach(GLSL ${GLSL_SOURCE_FILES})
-  get_filename_component(FILE_NAME ${GLSL} NAME)
-  set(SPIRV "${PROJECT_SOURCE_DIR}/shaders/${FILE_NAME}.spv")
-  add_custom_command(
-    OUTPUT ${SPIRV}
-    COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
-    DEPENDS ${GLSL})
-  list(APPEND SPIRV_BINARY_FILES ${SPIRV})
-endforeach(GLSL)
+if(GLSL_VALIDATOR)
+  message(STATUS "Found glslangValidator at ${GLSL_VALIDATOR}")
 
-add_custom_target(Shaders DEPENDS ${SPIRV_BINARY_FILES})
+  # Get all .vert and .frag files in shaders directory
+  file(GLOB_RECURSE GLSL_SOURCE_FILES
+    "${PROJECT_SOURCE_DIR}/shaders/*.frag"
+    "${PROJECT_SOURCE_DIR}/shaders/*.vert"
+  )
+
+  foreach(GLSL ${GLSL_SOURCE_FILES})
+    get_filename_component(FILE_NAME ${GLSL} NAME)
+    set(SPIRV "${PROJECT_SOURCE_DIR}/shaders/${FILE_NAME}.spv")
+    add_custom_command(
+      OUTPUT ${SPIRV}
+      COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
+      DEPENDS ${GLSL}
+      COMMENT "Compiling ${FILE_NAME} to SPIR-V"
+    )
+    list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+  endforeach(GLSL)
+
+  add_custom_target(Shaders DEPENDS ${SPIRV_BINARY_FILES})
+  add_dependencies(${PROJECT_NAME} Shaders)
+else()
+  message(WARNING "GLSL validator not found, shader compilation will be skipped")
+endif()
