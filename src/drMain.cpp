@@ -1,12 +1,11 @@
 #include "dr_first_app.hpp"
 
-// std
 #include <cstdlib>
 #include <iostream>
 #include <stdexcept>
 
 int main() {
-  lve::FirstApp app{};
+  dr::FirstApp app{};
 
   try {
     app.run();
