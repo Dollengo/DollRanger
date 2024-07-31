@@ -63,7 +63,6 @@ class FirstApp {
  public:
   static constexpr int WIDTH = 800;
   static constexpr int HEIGHT = 600;
-  const std:string name = "DollRangerTest";
 
   FirstApp();
   ~FirstApp();
@@ -76,7 +75,7 @@ class FirstApp {
  private:
   void loadGameObjects();
 
-  DrWindow drWindow(int width, int height, const std::string& name);
+  DrWindow drWindow(WIDTH, HEIGHT, "DollRangerTest");
   DrDevice drDevice(drWindow);
   DrRenderer drRenderer(drWindow, drDevice);
 
