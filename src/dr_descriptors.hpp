@@ -54,10 +54,10 @@ class DrDescriptorSetLayout {
         VkDescriptorType descriptorType,
         VkShaderStageFlags stageFlags,
         uint32_t count = 1);
-    std::unique_ptr<drDescriptorSetLayout> build() const;
+    std::unique_ptr<DrDescriptorSetLayout> build() const;
 
    private:
-    drDevice &drDevice;
+    DrDevice &drDevice;
     std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings{};
   };
 
@@ -95,7 +95,7 @@ class DrDescriptorPool {
     VkDescriptorPoolCreateFlags poolFlags = 0;
   };
 
-  drDescriptorPool(
+  DrDescriptorPool(
       DrDevice &drDevice,
       uint32_t maxSets,
       VkDescriptorPoolCreateFlags poolFlags,
