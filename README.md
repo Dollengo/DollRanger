@@ -135,7 +135,6 @@ Go to the original repository on GitHub and click "New Pull Request" to submit y
 - **Vulkan Tutorial Follow:** [YouTube](https://youtu.be/Y9U9IE0gVHA?si=tkCGbDV9H_3cLwis)
 - **Flecs [fast and lightweight Entity Component System]:** [Flecs GitHub](https://github.com/SanderMertens/flecs) | [Flecs.dev](https://www.flecs.dev/)
 - **ImGui [visual library]:** [ImGui GitHub](https://github.com/ocornut/imgui)
-- **Qt [visual library]:** [QtBase GitHub](https://github.com/qt/qtbase)
 - **SDL_Mixer [audio management]:** [SDL_mixer GitHub](https://github.com/libsdl-org/SDL_mixer)
 - **Dollengo:** [GitHub](https://github.com/dollengo) | [Website](https://dollengo.vercel.app)
 
