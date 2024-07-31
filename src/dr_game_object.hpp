@@ -61,7 +61,7 @@ struct PointLightComponent {
 class DrGameObject {
  public:
   using id_t = unsigned int;
-  using Map = std::unordered_map<id_t, drGameObject>;
+  using Map = std::unordered_map<id_t, DrGameObject>;
 
   static DrGameObject createGameObject() {
     static id_t currentId = 0;
