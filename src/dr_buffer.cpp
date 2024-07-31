@@ -54,7 +54,7 @@ VkDeviceSize drBuffer::getAlignment(VkDeviceSize instanceSize, VkDeviceSize minO
 }
 
 DrBuffer::DrBuffer(
-    drDevice &device,
+    DrDevice &device,
     VkDeviceSize instanceSize,
     uint32_t instanceCount,
     VkBufferUsageFlags usageFlags,
