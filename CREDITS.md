@@ -13,9 +13,6 @@
 ## ImGui [visual library]:
 - https://github.com/ocornut/imgui
 
-## Qt(QtBase) [visual library]:
-- https://github.com/qt/qtbase
-
 ## SDL_Mixer [audio managment]
 - https://github.com/libsdl-org/SDL_mixer
 
