@@ -49,7 +49,7 @@ namespace dr {
 class SimpleRenderSystem {
  public:
   SimpleRenderSystem(
-      drDevice &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+      DrDevice &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
   ~SimpleRenderSystem();
 
   SimpleRenderSystem(const SimpleRenderSystem &) = delete;
@@ -61,9 +61,9 @@ class SimpleRenderSystem {
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
   void createPipeline(VkRenderPass renderPass);
 
-  drDevice &drDevice;
+  DrDevice &drDevice;
 
-  std::unique_ptr<drPipeline> drPipeline;
+  std::unique_ptr<DrPipeline> drPipeline;
   VkPipelineLayout pipelineLayout;
 };
 }  // namespace dr

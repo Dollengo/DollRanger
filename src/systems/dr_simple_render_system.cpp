@@ -52,7 +52,7 @@ struct SimplePushConstantData {
 };
 
 SimpleRenderSystem::SimpleRenderSystem(
-    drDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
+    DrDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
     : drDevice{device} {
   createPipelineLayout(globalSetLayout);
   createPipeline(renderPass);
@@ -86,10 +86,10 @@ void SimpleRenderSystem::createPipeline(VkRenderPass renderPass) {
   assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   PipelineConfigInfo pipelineConfig{};
-  drPipeline::defaultPipelineConfigInfo(pipelineConfig);
+  DrPipeline::defaultPipelineConfigInfo(pipelineConfig);
   pipelineConfig.renderPass = renderPass;
   pipelineConfig.pipelineLayout = pipelineLayout;
-  drPipeline = std::make_unique<drPipeline>(
+  drPipeline = std::make_unique<DrPipeline>(
       drDevice,
       "shaders/simple_shader.vert.spv",
       "shaders/simple_shader.frag.spv",

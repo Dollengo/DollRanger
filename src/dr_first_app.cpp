@@ -183,7 +183,7 @@ void FirstApp::loadGameObjects() {
   gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
 
   drModel = DrModel::createModelFromFile(drDevice, "models/quad.obj");
-  auto floor = drGameObject::createGameObject();
+  auto floor = DrGameObject::createGameObject();
   floor.model = drModel;
   floor.transform.translation = {0.f, .5f, 0.f};
   floor.transform.scale = {3.f, 1.f, 3.f};

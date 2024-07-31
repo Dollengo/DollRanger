@@ -49,7 +49,7 @@ namespace dr {
 class PointLightSystem {
  public:
   PointLightSystem(
-      drDevice &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
+      DrDevice &device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
   ~PointLightSystem();
 
   PointLightSystem(const PointLightSystem &) = delete;
@@ -62,9 +62,9 @@ class PointLightSystem {
   void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
   void createPipeline(VkRenderPass renderPass);
 
-  drDevice &drDevice;
+  DrDevice &drDevice;
 
-  std::unique_ptr<drPipeline> drPipeline;
+  std::unique_ptr<DrPipeline> drPipeline;
   VkPipelineLayout pipelineLayout;
 };
 }  // namespace dr

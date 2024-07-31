@@ -55,7 +55,7 @@ struct PointLightPushConstants {
 };
 
 PointLightSystem::PointLightSystem(
-    drDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
+    DrDevice& device, VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout)
     : drDevice{device} {
   createPipelineLayout(globalSetLayout);
   createPipeline(renderPass);
@@ -89,8 +89,8 @@ void PointLightSystem::createPipeline(VkRenderPass renderPass) {
   assert(pipelineLayout != nullptr && "Cannot create pipeline before pipeline layout");
 
   PipelineConfigInfo pipelineConfig{};
-  drPipeline::defaultPipelineConfigInfo(pipelineConfig);
-  drPipeline::enableAlphaBlending(pipelineConfig);
+  DrPipeline::defaultPipelineConfigInfo(pipelineConfig);
+  DrPipeline::enableAlphaBlending(pipelineConfig);
   pipelineConfig.attributeDescriptions.clear();
   pipelineConfig.bindingDescriptions.clear();
   pipelineConfig.renderPass = renderPass;
@@ -125,7 +125,7 @@ void PointLightSystem::update(FrameInfo& frameInfo, GlobalUbo& ubo) {
 
 void PointLightSystem::render(FrameInfo& frameInfo) {
   // sort lights
-  std::map<float, drGameObject::id_t> sorted;
+  std::map<float, DrGameObject::id_t> sorted;
   for (auto& kv : frameInfo.gameObjects) {
     auto& obj = kv.second;
     if (obj.pointLight == nullptr) continue;
