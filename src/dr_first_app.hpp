@@ -73,7 +73,7 @@ class FirstApp {
  private:
   void loadGameObjects();
 
-  drWindow drWindow{int WIDTH, int HEIGHT, std::string NAME};
+  drWindow drWindow(int width, int height, const std::string& name);
   drDevice drDevice{drWindow};
   drRenderer drRenderer{drWindow, drDevice};
 

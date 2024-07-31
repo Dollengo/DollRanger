@@ -67,7 +67,11 @@ You need import these libraries in your main archive, for you use all the librar
 
 namespace dr {
 
-FirstApp::FirstApp() {
+FirstApp::FirstApp()
+    : window(800, 600, "DollRangerTest"),
+      drDevice(window),
+      drRenderer(window, drDevice)
+{
   globalPool =
       drDescriptorPool::Builder(drDevice)
           .setMaxSets(drSwapChain::MAX_FRAMES_IN_FLIGHT)
