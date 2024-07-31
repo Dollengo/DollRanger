@@ -74,8 +74,8 @@ class FirstApp {
   void loadGameObjects();
 
   drWindow drWindow(int width, int height, const std::string& name);
-  drDevice drDevice{drWindow};
-  drRenderer drRenderer{drWindow, drDevice};
+  drDevice drDevice(drWindow);
+  drRenderer drRenderer(drWindow, drDevice);
 
   // note: order of declarations matters
   std::unique_ptr<drDescriptorPool> globalPool{};
