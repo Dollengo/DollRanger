@@ -13,8 +13,8 @@
 ## ImGui [visual library]:
 - https://github.com/ocornut/imgui
 
-## SDL_Mixer [audio managment]
-- https://github.com/libsdl-org/SDL_mixer
+## SDL3 [audio managment, but you can use for all]
+- https://github.com/libsdl-org/SDL
 
 ## Me(Tarcísio Nascimento Silva, aka Dollengo)
 - https://github.com/dollengo
