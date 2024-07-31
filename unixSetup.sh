@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]; then
     exit
 fi
 
-# Detect Linux distribution and install Python and pip
+# Detect Linux distribution and install necessary packages
 if [ -f /etc/debian_version ]; then
     # Debian-based system (Ubuntu, etc.)
     apt update
@@ -16,7 +16,7 @@ elif [ -f /etc/redhat-release ]; then
     yum install -y python3 python3-pip cmake gcc-c++ git glm-devel sfml-devel vulkan-devel
 elif [ -f /etc/arch-release ]; then
     # Arch-based system
-    pacman -Syu --noconfirm python python-pip cmake g++ git gcc glm sfml vulkan-sdk
+    pacman -Syu --noconfirm python python-pip cmake g++ git gcc glm sfml vulkan-headers vulkan-tools vulkan-validation-layers
 else
     echo "Unsupported system"
     exit 1
@@ -24,27 +24,6 @@ fi
 
 # Install the requests library
 pip3 install requests
-
-# Download and install Vulkan SDK (assuming Vulkan SDK 1.3.204.0 as an example)
-VULKAN_SDK_URL="https://sdk.lunarg.com/sdk/download/1.3.204.0/linux/vulkan-sdk-linux-x86_64-1.3.204.0.20230922.tar.gz"
-VULKAN_SDK_TAR="vulkan-sdk.tar.gz"
-
-download_file() {
-    local url=$1
-    local output_path=$2
-    wget -O "$output_path" "$url"
-}
-
-extract_tar() {
-    local file_path=$1
-    local extract_to=$2
-    tar -xzf "$file_path" -C "$extract_to"
-}
-
-echo "Downloading and installing Vulkan SDK..."
-download_file "$VULKAN_SDK_URL" "$VULKAN_SDK_TAR"
-extract_tar "$VULKAN_SDK_TAR" "/usr/local"
-rm "$VULKAN_SDK_TAR"
 
 # Create the Python script
 cat <<EOF > update_script.py
@@ -129,3 +108,4 @@ EOF
 
 # Execute the Python script
 python3 update_script.py
+

@@ -1,12 +1,34 @@
 @echo off
 setlocal
 
+:: Function to install a package using Chocolatey or winget
+:install_package
+set "PACKAGE_NAME=%1"
+choco install %PACKAGE_NAME% -y
+if %errorlevel% neq 0 (
+    winget install -e --id %PACKAGE_NAME%
+)
+goto :eof
+
+:: Check if Chocolatey is installed
+choco -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Chocolatey not found, installing Chocolatey...
+    powershell -Command "Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
+)
+
+:: Check if winget is installed
+winget -v >nul 2>&1
+if %errorlevel% neq 0 (
+    echo winget not found. Please install winget manually.
+    exit /b 1
+)
+
 :: Check if Python is installed
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo Python not found, installing Python...
-    :: Download and install Python
-    powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://www.python.org/ftp/python/3.9.5/python-3.9.5-amd64.exe, /quiet, InstallAllUsers=1, PrependPath=1' -NoNewWindow -Wait"
+    call :install_package python3
 )
 
 :: Install the requests library
@@ -16,25 +38,24 @@ pip install requests
 where mingw32-gcc >nul 2>&1
 if %errorlevel% neq 0 (
     echo MinGW not found, installing MinGW...
-    :: Download and install MinGW
-    powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://sourceforge.net/projects/mingw-w64/files/latest/download, /quiet, InstallAllUsers=1' -NoNewWindow -Wait"
+    call :install_package mingw
 )
 
 :: Install GLFW
 echo Installing GLFW...
-powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://github.com/GladysHegglund/GLFW/releases/download/3.3.8/glfw-3.3.8.zip, /quiet' -NoNewWindow -Wait"
+call :install_package glfw
 
 :: Install glm
 echo Installing glm...
-powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip, /quiet' -NoNewWindow -Wait"
+call :install_package glm
 
 :: Install SFML
 echo Installing SFML...
-powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://www.sfml-dev.org/files/SFML-2.5.1-windows-vc15-64-bit.zip, /quiet' -NoNewWindow -Wait"
+call :install_package sfml
 
 :: Install Vulkan SDK
 echo Installing Vulkan SDK...
-powershell -Command "Start-Process msiexec.exe -ArgumentList '/i, https://sdk.lunarg.com/sdk/download/1.3.204.0/windows/vulkan-sdk-windows-x86_64-1.3.204.0.20230922.zip, /quiet' -NoNewWindow -Wait"
+call :install_package "LunarG.VulkanSDK"
 
 :: Create the Python script
 echo import os > update_script.py
@@ -119,3 +140,4 @@ echo.    main() >> update_script.py
 python update_script.py
 
 endlocal
+
