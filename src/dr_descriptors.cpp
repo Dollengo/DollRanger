@@ -98,7 +98,7 @@ DrDescriptorPool::Builder &DrDescriptorPool::Builder::addPoolSize(
   return *this;
 }
 
-drDescriptorPool::Builder &DrDescriptorPool::Builder::setPoolFlags(
+DrDescriptorPool::Builder &DrDescriptorPool::Builder::setPoolFlags(
     VkDescriptorPoolCreateFlags flags) {
   poolFlags = flags;
   return *this;
