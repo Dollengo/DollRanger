@@ -83,6 +83,6 @@ class FirstApp {
 
   // note: order of declarations matters
   std::unique_ptr<drDescriptorPool> globalPool{};
-  drGameObject::Map gameObjects;
+  DrGameObject::Map gameObjects;
 };
 }  // namespace dr
