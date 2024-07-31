@@ -75,7 +75,7 @@ class FirstApp {
 
   int width = 800;
   int height = 600;
-  std:string name = "DollRanger Test";
+  const std:string name = "DollRanger Test";
 
   DrWindow drWindow(int width, int height, const std::string& name);
   DrDevice drDevice(drWindow);
