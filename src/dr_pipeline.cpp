@@ -48,8 +48,8 @@ Thank you for doing your part.
 
 namespace dr {
 
-drPipeline::drPipeline(
-    drDevice& device,
+DrPipeline::DrPipeline(
+    DrDevice& device,
     const std::string& vertFilepath,
     const std::string& fragFilepath,
     const PipelineConfigInfo& configInfo)
@@ -57,13 +57,13 @@ drPipeline::drPipeline(
   createGraphicsPipeline(vertFilepath, fragFilepath, configInfo);
 }
 
-drPipeline::~drPipeline() {
+DrPipeline::~DrPipeline() {
   vkDestroyShaderModule(drDevice.device(), vertShaderModule, nullptr);
   vkDestroyShaderModule(drDevice.device(), fragShaderModule, nullptr);
   vkDestroyPipeline(drDevice.device(), graphicsPipeline, nullptr);
 }
 
-std::vector<char> drPipeline::readFile(const std::string& filepath) {
+std::vector<char> DrPipeline::readFile(const std::string& filepath) {
   std::string enginePath = ENGINE_DIR + filepath;
   std::ifstream file{enginePath, std::ios::ate | std::ios::binary};
 
@@ -81,7 +81,7 @@ std::vector<char> drPipeline::readFile(const std::string& filepath) {
   return buffer;
 }
 
-void drPipeline::createGraphicsPipeline(
+void DrPipeline::createGraphicsPipeline(
     const std::string& vertFilepath,
     const std::string& fragFilepath,
     const PipelineConfigInfo& configInfo) {
@@ -155,7 +155,7 @@ void drPipeline::createGraphicsPipeline(
   }
 }
 
-void drPipeline::createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule) {
+void DrPipeline::createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule) {
   VkShaderModuleCreateInfo createInfo{};
   createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
   createInfo.codeSize = code.size();
@@ -166,11 +166,11 @@ void drPipeline::createShaderModule(const std::vector<char>& code, VkShaderModul
   }
 }
 
-void drPipeline::bind(VkCommandBuffer commandBuffer) {
+void DrPipeline::bind(VkCommandBuffer commandBuffer) {
   vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 }
 
-void drPipeline::defaultPipelineConfigInfo(PipelineConfigInfo& configInfo) {
+void DrPipeline::defaultPipelineConfigInfo(PipelineConfigInfo& configInfo) {
   configInfo.inputAssemblyInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
   configInfo.inputAssemblyInfo.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
   configInfo.inputAssemblyInfo.primitiveRestartEnable = VK_FALSE;
@@ -240,11 +240,11 @@ void drPipeline::defaultPipelineConfigInfo(PipelineConfigInfo& configInfo) {
       static_cast<uint32_t>(configInfo.dynamicStateEnables.size());
   configInfo.dynamicStateInfo.flags = 0;
 
-  configInfo.bindingDescriptions = drModel::Vertex::getBindingDescriptions();
-  configInfo.attributeDescriptions = drModel::Vertex::getAttributeDescriptions();
+  configInfo.bindingDescriptions = DrModel::Vertex::getBindingDescriptions();
+  configInfo.attributeDescriptions = DrModel::Vertex::getAttributeDescriptions();
 }
 
-void drPipeline::enableAlphaBlending(PipelineConfigInfo& configInfo) {
+void DrPipeline::enableAlphaBlending(PipelineConfigInfo& configInfo) {
   configInfo.colorBlendAttachment.blendEnable = VK_TRUE;
   configInfo.colorBlendAttachment.colorWriteMask =
       VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT |

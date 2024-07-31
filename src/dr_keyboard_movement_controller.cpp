@@ -40,7 +40,7 @@ Thank you for doing your part.
 namespace dr {
 
 void KeyboardMovementController::moveInPlaneXZ(
-    GLFWwindow* window, float dt, drGameObject& gameObject) {
+    GLFWwindow* window, float dt, DrGameObject& gameObject) {
   glm::vec3 rotate{0};
   if (glfwGetKey(window, keys.lookRight) == GLFW_PRESS) rotate.y += 1.f;
   if (glfwGetKey(window, keys.lookLeft) == GLFW_PRESS) rotate.y -= 1.f;

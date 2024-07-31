@@ -43,11 +43,11 @@ Thank you for doing your part.
 
 namespace dr {
 
-class drDescriptorSetLayout {
+class DrDescriptorSetLayout {
  public:
   class Builder {
    public:
-    Builder(drDevice &drDevice) : drDevice{drDevice} {}
+    Builder(DrDevice &drDevice) : drDevice{drDevice} {}
 
     Builder &addBinding(
         uint32_t binding,
@@ -61,48 +61,48 @@ class drDescriptorSetLayout {
     std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings{};
   };
 
-  drDescriptorSetLayout(
-      drDevice &drDevice, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings);
-  ~drDescriptorSetLayout();
-  drDescriptorSetLayout(const drDescriptorSetLayout &) = delete;
-  drDescriptorSetLayout &operator=(const drDescriptorSetLayout &) = delete;
+  DrDescriptorSetLayout(
+      DrDevice &drDevice, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings);
+  ~DrDescriptorSetLayout();
+  DrDescriptorSetLayout(const DrDescriptorSetLayout &) = delete;
+  DrDescriptorSetLayout &operator=(const DrDescriptorSetLayout &) = delete;
 
   VkDescriptorSetLayout getDescriptorSetLayout() const { return descriptorSetLayout; }
 
  private:
-  drDevice &drDevice;
+  DrDevice &drDevice;
   VkDescriptorSetLayout descriptorSetLayout;
   std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings;
 
-  friend class drDescriptorWriter;
+  friend class DrDescriptorWriter;
 };
 
-class drDescriptorPool {
+class DrDescriptorPool {
  public:
   class Builder {
    public:
-    Builder(drDevice &drDevice) : drDevice{drDevice} {}
+    Builder(DrDevice &drDevice) : drDevice{drDevice} {}
 
     Builder &addPoolSize(VkDescriptorType descriptorType, uint32_t count);
     Builder &setPoolFlags(VkDescriptorPoolCreateFlags flags);
     Builder &setMaxSets(uint32_t count);
-    std::unique_ptr<drDescriptorPool> build() const;
+    std::unique_ptr<DrDescriptorPool> build() const;
 
    private:
-    drDevice &drDevice;
+    DrDevice &drDevice;
     std::vector<VkDescriptorPoolSize> poolSizes{};
     uint32_t maxSets = 1000;
     VkDescriptorPoolCreateFlags poolFlags = 0;
   };
 
   drDescriptorPool(
-      drDevice &drDevice,
+      DrDevice &drDevice,
       uint32_t maxSets,
       VkDescriptorPoolCreateFlags poolFlags,
       const std::vector<VkDescriptorPoolSize> &poolSizes);
-  ~drDescriptorPool();
-  drDescriptorPool(const drDescriptorPool &) = delete;
-  drDescriptorPool &operator=(const drDescriptorPool &) = delete;
+  ~DrDescriptorPool();
+  DrDescriptorPool(const DrDescriptorPool &) = delete;
+  DrDescriptorPool &operator=(const DrDescriptorPool &) = delete;
 
   bool allocateDescriptor(
       const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const;
@@ -112,25 +112,25 @@ class drDescriptorPool {
   void resetPool();
 
  private:
-  drDevice &drDevice;
+  DrDevice &drDevice;
   VkDescriptorPool descriptorPool;
 
-  friend class drDescriptorWriter;
+  friend class DrDescriptorWriter;
 };
 
-class drDescriptorWriter {
+class DrDescriptorWriter {
  public:
-  drDescriptorWriter(drDescriptorSetLayout &setLayout, drDescriptorPool &pool);
+  DrDescriptorWriter(DrDescriptorSetLayout &setLayout, DrDescriptorPool &pool);
 
-  drDescriptorWriter &writeBuffer(uint32_t binding, VkDescriptorBufferInfo *bufferInfo);
-  drDescriptorWriter &writeImage(uint32_t binding, VkDescriptorImageInfo *imageInfo);
+  DrDescriptorWriter &writeBuffer(uint32_t binding, VkDescriptorBufferInfo *bufferInfo);
+  DrDescriptorWriter &writeImage(uint32_t binding, VkDescriptorImageInfo *imageInfo);
 
   bool build(VkDescriptorSet &set);
   void overwrite(VkDescriptorSet &set);
 
  private:
-  drDescriptorSetLayout &setLayout;
-  drDescriptorPool &pool;
+  DrDescriptorSetLayout &setLayout;
+  DrDescriptorPool &pool;
   std::vector<VkWriteDescriptorSet> writes;
 };
 

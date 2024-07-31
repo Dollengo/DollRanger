@@ -52,8 +52,8 @@ Thank you for doing your part.
 
 namespace std {
 template <>
-struct hash<dr::drModel::Vertex> {
-  size_t operator()(dr::drModel::Vertex const &vertex) const {
+struct hash<dr::DrModel::Vertex> {
+  size_t operator()(dr::DrModel::Vertex const &vertex) const {
     size_t seed = 0;
     dr::hashCombine(seed, vertex.position, vertex.color, vertex.normal, vertex.uv);
     return seed;
@@ -63,27 +63,27 @@ struct hash<dr::drModel::Vertex> {
 
 namespace dr {
 
-drModel::drModel(drDevice &device, const drModel::Builder &builder) : drDevice{device} {
+DrModel::DrModel(DrDevice &device, const DrModel::Builder &builder) : drDevice{device} {
   createVertexBuffers(builder.vertices);
   createIndexBuffers(builder.indices);
 }
 
-drModel::~drModel() {}
+DrModel::~DrModel() {}
 
-std::unique_ptr<drModel> drModel::createModelFromFile(
-    drDevice &device, const std::string &filepath) {
+std::unique_ptr<DrModel> DrModel::createModelFromFile(
+    DrDevice &device, const std::string &filepath) {
   Builder builder{};
   builder.loadModel(ENGINE_DIR + filepath);
-  return std::make_unique<drModel>(device, builder);
+  return std::make_unique<DrModel>(device, builder);
 }
 
-void drModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
+void DrModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
   vertexCount = static_cast<uint32_t>(vertices.size());
   assert(vertexCount >= 3 && "Vertex count must be at least 3");
   VkDeviceSize bufferSize = sizeof(vertices[0]) * vertexCount;
   uint32_t vertexSize = sizeof(vertices[0]);
 
-  drBuffer stagingBuffer{
+  DrBuffer stagingBuffer{
       drDevice,
       vertexSize,
       vertexCount,
@@ -94,7 +94,7 @@ void drModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
   stagingBuffer.map();
   stagingBuffer.writeToBuffer((void *)vertices.data());
 
-  vertexBuffer = std::make_unique<drBuffer>(
+  vertexBuffer = std::make_unique<DrBuffer>(
       drDevice,
       vertexSize,
       vertexCount,
@@ -104,7 +104,7 @@ void drModel::createVertexBuffers(const std::vector<Vertex> &vertices) {
   drDevice.copyBuffer(stagingBuffer.getBuffer(), vertexBuffer->getBuffer(), bufferSize);
 }
 
-void drModel::createIndexBuffers(const std::vector<uint32_t> &indices) {
+void DrModel::createIndexBuffers(const std::vector<uint32_t> &indices) {
   indexCount = static_cast<uint32_t>(indices.size());
   hasIndexBuffer = indexCount > 0;
 
@@ -115,7 +115,7 @@ void drModel::createIndexBuffers(const std::vector<uint32_t> &indices) {
   VkDeviceSize bufferSize = sizeof(indices[0]) * indexCount;
   uint32_t indexSize = sizeof(indices[0]);
 
-  drBuffer stagingBuffer{
+  DrBuffer stagingBuffer{
       drDevice,
       indexSize,
       indexCount,
@@ -126,7 +126,7 @@ void drModel::createIndexBuffers(const std::vector<uint32_t> &indices) {
   stagingBuffer.map();
   stagingBuffer.writeToBuffer((void *)indices.data());
 
-  indexBuffer = std::make_unique<drBuffer>(
+  indexBuffer = std::make_unique<DrBuffer>(
       drDevice,
       indexSize,
       indexCount,
@@ -136,7 +136,7 @@ void drModel::createIndexBuffers(const std::vector<uint32_t> &indices) {
   drDevice.copyBuffer(stagingBuffer.getBuffer(), indexBuffer->getBuffer(), bufferSize);
 }
 
-void drModel::draw(VkCommandBuffer commandBuffer) {
+void DrModel::draw(VkCommandBuffer commandBuffer) {
   if (hasIndexBuffer) {
     vkCmdDrawIndexed(commandBuffer, indexCount, 1, 0, 0, 0);
   } else {
@@ -144,7 +144,7 @@ void drModel::draw(VkCommandBuffer commandBuffer) {
   }
 }
 
-void drModel::bind(VkCommandBuffer commandBuffer) {
+void DrModel::bind(VkCommandBuffer commandBuffer) {
   VkBuffer buffers[] = {vertexBuffer->getBuffer()};
   VkDeviceSize offsets[] = {0};
   vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
@@ -154,7 +154,7 @@ void drModel::bind(VkCommandBuffer commandBuffer) {
   }
 }
 
-std::vector<VkVertexInputBindingDescription> drModel::Vertex::getBindingDescriptions() {
+std::vector<VkVertexInputBindingDescription> DrModel::Vertex::getBindingDescriptions() {
   std::vector<VkVertexInputBindingDescription> bindingDescriptions(1);
   bindingDescriptions[0].binding = 0;
   bindingDescriptions[0].stride = sizeof(Vertex);
@@ -162,7 +162,7 @@ std::vector<VkVertexInputBindingDescription> drModel::Vertex::getBindingDescript
   return bindingDescriptions;
 }
 
-std::vector<VkVertexInputAttributeDescription> drModel::Vertex::getAttributeDescriptions() {
+std::vector<VkVertexInputAttributeDescription> DrModel::Vertex::getAttributeDescriptions() {
   std::vector<VkVertexInputAttributeDescription> attributeDescriptions{};
 
   attributeDescriptions.push_back({0, 0, VK_FORMAT_R32G32B32_SFLOAT, offsetof(Vertex, position)});
@@ -173,7 +173,7 @@ std::vector<VkVertexInputAttributeDescription> drModel::Vertex::getAttributeDesc
   return attributeDescriptions;
 }
 
-void drModel::Builder::loadModel(const std::string &filepath) {
+void DrModel::Builder::loadModel(const std::string &filepath) {
   tinyobj::attrib_t attrib;
   std::vector<tinyobj::shape_t> shapes;
   std::vector<tinyobj::material_t> materials;

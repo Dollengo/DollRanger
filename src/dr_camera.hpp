@@ -42,7 +42,7 @@ Thank you for doing your part.
 
 namespace dr {
 
-class drCamera {
+class DrCamera {
  public:
   void setOrthographicProjection(
       float left, float right, float top, float bottom, float near, float far);

@@ -43,7 +43,7 @@ namespace dr {
 
 // ************* Descriptor Set Layout Builder *******************
 
-drDescriptorSetLayout::Builder &drDescriptorSetLayout::Builder::addBinding(
+DrDescriptorSetLayout::Builder &DrDescriptorSetLayout::Builder::addBinding(
     uint32_t binding,
     VkDescriptorType descriptorType,
     VkShaderStageFlags stageFlags,
@@ -58,14 +58,14 @@ drDescriptorSetLayout::Builder &drDescriptorSetLayout::Builder::addBinding(
   return *this;
 }
 
-std::unique_ptr<drDescriptorSetLayout> drDescriptorSetLayout::Builder::build() const {
-  return std::make_unique<drDescriptorSetLayout>(drDevice, bindings);
+std::unique_ptr<DrDescriptorSetLayout> DrDescriptorSetLayout::Builder::build() const {
+  return std::make_unique<DrDescriptorSetLayout>(drDevice, bindings);
 }
 
 // ************ Descriptor Set Layout ******************
 
-drDescriptorSetLayout::drDescriptorSetLayout(
-    drDevice &drDevice, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings)
+DrDescriptorSetLayout::DrDescriptorSetLayout(
+    DrDevice &drDevice, std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings)
     : drDevice{drDevice}, bindings{bindings} {
   std::vector<VkDescriptorSetLayoutBinding> setLayoutBindings{};
   for (auto kv : bindings) {
@@ -86,36 +86,36 @@ drDescriptorSetLayout::drDescriptorSetLayout(
   }
 }
 
-drDescriptorSetLayout::~drDescriptorSetLayout() {
+DrDescriptorSetLayout::~DrDescriptorSetLayout() {
   vkDestroyDescriptorSetLayout(drDevice.device(), descriptorSetLayout, nullptr);
 }
 
 // *************** Descriptor Pool Builder *********************
 
-drDescriptorPool::Builder &drDescriptorPool::Builder::addPoolSize(
+DrDescriptorPool::Builder &DrDescriptorPool::Builder::addPoolSize(
     VkDescriptorType descriptorType, uint32_t count) {
   poolSizes.push_back({descriptorType, count});
   return *this;
 }
 
-drDescriptorPool::Builder &drDescriptorPool::Builder::setPoolFlags(
+drDescriptorPool::Builder &DrDescriptorPool::Builder::setPoolFlags(
     VkDescriptorPoolCreateFlags flags) {
   poolFlags = flags;
   return *this;
 }
-drDescriptorPool::Builder &drDescriptorPool::Builder::setMaxSets(uint32_t count) {
+drDescriptorPool::Builder &DrDescriptorPool::Builder::setMaxSets(uint32_t count) {
   maxSets = count;
   return *this;
 }
 
-std::unique_ptr<drDescriptorPool> drDescriptorPool::Builder::build() const {
-  return std::make_unique<drDescriptorPool>(drDevice, maxSets, poolFlags, poolSizes);
+std::unique_ptr<DrDescriptorPool> DrDescriptorPool::Builder::build() const {
+  return std::make_unique<DrDescriptorPool>(drDevice, maxSets, poolFlags, poolSizes);
 }
 
 // *************** Descriptor Pool *********************
 
-drDescriptorPool::drDescriptorPool(
-    drDevice &drDevice,
+DrDescriptorPool::DrDescriptorPool(
+    DrDevice &drDevice,
     uint32_t maxSets,
     VkDescriptorPoolCreateFlags poolFlags,
     const std::vector<VkDescriptorPoolSize> &poolSizes)
@@ -133,11 +133,11 @@ drDescriptorPool::drDescriptorPool(
   }
 }
 
-drDescriptorPool::~drDescriptorPool() {
+DrDescriptorPool::~DrDescriptorPool() {
   vkDestroyDescriptorPool(drDevice.device(), descriptorPool, nullptr);
 }
 
-bool drDescriptorPool::allocateDescriptor(
+bool DrDescriptorPool::allocateDescriptor(
     const VkDescriptorSetLayout descriptorSetLayout, VkDescriptorSet &descriptor) const {
   VkDescriptorSetAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
@@ -153,7 +153,7 @@ bool drDescriptorPool::allocateDescriptor(
   return true;
 }
 
-void drDescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const {
+void DrDescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descriptors) const {
   vkFreeDescriptorSets(
       drDevice.device(),
       descriptorPool,
@@ -161,16 +161,16 @@ void drDescriptorPool::freeDescriptors(std::vector<VkDescriptorSet> &descriptors
       descriptors.data());
 }
 
-void drDescriptorPool::resetPool() {
+void DrDescriptorPool::resetPool() {
   vkResetDescriptorPool(drDevice.device(), descriptorPool, 0);
 }
 
 // *************** Descriptor Writer *********************
 
-drDescriptorWriter::drDescriptorWriter(drDescriptorSetLayout &setLayout, drDescriptorPool &pool)
+DrDescriptorWriter::DrDescriptorWriter(DrDescriptorSetLayout &setLayout, DrDescriptorPool &pool)
     : setLayout{setLayout}, pool{pool} {}
 
-drDescriptorWriter &drDescriptorWriter::writeBuffer(
+DrDescriptorWriter &DrDescriptorWriter::writeBuffer(
     uint32_t binding, VkDescriptorBufferInfo *bufferInfo) {
   assert(setLayout.bindings.count(binding) == 1 && "Layout does not contain specified binding");
 
@@ -191,7 +191,7 @@ drDescriptorWriter &drDescriptorWriter::writeBuffer(
   return *this;
 }
 
-drDescriptorWriter &drDescriptorWriter::writeImage(
+DrDescriptorWriter &DrDescriptorWriter::writeImage(
     uint32_t binding, VkDescriptorImageInfo *imageInfo) {
   assert(setLayout.bindings.count(binding) == 1 && "Layout does not contain specified binding");
 
@@ -212,7 +212,7 @@ drDescriptorWriter &drDescriptorWriter::writeImage(
   return *this;
 }
 
-bool drDescriptorWriter::build(VkDescriptorSet &set) {
+bool DrDescriptorWriter::build(VkDescriptorSet &set) {
   bool success = pool.allocateDescriptor(setLayout.getDescriptorSetLayout(), set);
   if (!success) {
     return false;

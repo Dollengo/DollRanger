@@ -67,15 +67,11 @@ You need import these libraries in your main archive, for you use all the librar
 
 namespace dr {
 
-FirstApp::FirstApp()
-    : window(800, 600, "DollRangerTest"),
-      drDevice(window),
-      drRenderer(window, drDevice)
-{
+FirstApp::FirstApp() {
   globalPool =
-      drDescriptorPool::Builder(drDevice)
-          .setMaxSets(drSwapChain::MAX_FRAMES_IN_FLIGHT)
-          .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, drSwapChain::MAX_FRAMES_IN_FLIGHT)
+      DrDescriptorPool::Builder(drDevice)
+          .setMaxSets(DrSwapChain::MAX_FRAMES_IN_FLIGHT)
+          .addPoolSize(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, DrSwapChain::MAX_FRAMES_IN_FLIGHT)
           .build();
   loadGameObjects();
 }
@@ -83,9 +79,9 @@ FirstApp::FirstApp()
 FirstApp::~FirstApp() {}
 
 void FirstApp::run() {
-  std::vector<std::unique_ptr<drBuffer>> uboBuffers(drSwapChain::MAX_FRAMES_IN_FLIGHT);
+  std::vector<std::unique_ptr<DrBuffer>> uboBuffers(DrSwapChain::MAX_FRAMES_IN_FLIGHT);
   for (int i = 0; i < uboBuffers.size(); i++) {
-    uboBuffers[i] = std::make_unique<drBuffer>(
+    uboBuffers[i] = std::make_unique<DrBuffer>(
         drDevice,
         sizeof(GlobalUbo),
         1,
@@ -95,14 +91,14 @@ void FirstApp::run() {
   }
 
   auto globalSetLayout =
-      drDescriptorSetLayout::Builder(drDevice)
+      DrDescriptorSetLayout::Builder(drDevice)
           .addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
           .build();
 
-  std::vector<VkDescriptorSet> globalDescriptorSets(drSwapChain::MAX_FRAMES_IN_FLIGHT);
   for (int i = 0; i < globalDescriptorSets.size(); i++) {
+  std::vector<VkDescriptorSet> globalDescriptorSets(DrSwapChain::MAX_FRAMES_IN_FLIGHT);
     auto bufferInfo = uboBuffers[i]->descriptorInfo();
-    drDescriptorWriter(*globalSetLayout, *globalPool)
+    DrDescriptorWriter(*globalSetLayout, *globalPool)
         .writeBuffer(0, &bufferInfo)
         .build(globalDescriptorSets[i]);
   }
@@ -115,9 +111,9 @@ void FirstApp::run() {
       drDevice,
       drRenderer.getSwapChainRenderPass(),
       globalSetLayout->getDescriptorSetLayout()};
-  drCamera camera{};
+  DrCamera camera{};
 
-  auto viewerObject = drGameObject::createGameObject();
+  auto viewerObject = DrGameObject::createGameObject();
   viewerObject.transform.translation.z = -2.5f;
   KeyboardMovementController cameraController{};
 
@@ -171,22 +167,22 @@ void FirstApp::run() {
 }
 
 void FirstApp::loadGameObjects() {
-  std::shared_ptr<drModel> drModel =
-      drModel::createModelFromFile(drDevice, "models/flat_vase.obj");
-  auto flatVase = drGameObject::createGameObject();
+  std::shared_ptr<DrModel> drModel =
+      DrModel::createModelFromFile(drDevice, "models/flat_vase.obj");
+  auto flatVase = DrGameObject::createGameObject();
   flatVase.model = drModel;
   flatVase.transform.translation = {-.5f, .5f, 0.f};
   flatVase.transform.scale = {3.f, 1.5f, 3.f};
   gameObjects.emplace(flatVase.getId(), std::move(flatVase));
 
-  drModel = drModel::createModelFromFile(drDevice, "models/smooth_vase.obj");
-  auto smoothVase = drGameObject::createGameObject();
+  drModel = DrModel::createModelFromFile(drDevice, "models/smooth_vase.obj");
+  auto smoothVase = DrGameObject::createGameObject();
   smoothVase.model = drModel;
   smoothVase.transform.translation = {.5f, .5f, 0.f};
   smoothVase.transform.scale = {3.f, 1.5f, 3.f};
   gameObjects.emplace(smoothVase.getId(), std::move(smoothVase));
 
-  drModel = drModel::createModelFromFile(drDevice, "models/quad.obj");
+  drModel = DrModel::createModelFromFile(drDevice, "models/quad.obj");
   auto floor = drGameObject::createGameObject();
   floor.model = drModel;
   floor.transform.translation = {0.f, .5f, 0.f};
@@ -203,7 +199,7 @@ void FirstApp::loadGameObjects() {
   };
 
   for (int i = 0; i < lightColors.size(); i++) {
-    auto pointLight = drGameObject::makePointLight(0.2f);
+    auto pointLight = DrGameObject::makePointLight(0.2f);
     pointLight.color = lightColors[i];
     auto rotateLight = glm::rotate(
         glm::mat4(1.f),

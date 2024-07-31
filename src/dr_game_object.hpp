@@ -58,23 +58,23 @@ struct PointLightComponent {
   float lightIntensity = 1.0f;
 };
 
-class drGameObject {
+class DrGameObject {
  public:
   using id_t = unsigned int;
   using Map = std::unordered_map<id_t, drGameObject>;
 
-  static drGameObject createGameObject() {
+  static DrGameObject createGameObject() {
     static id_t currentId = 0;
-    return drGameObject{currentId++};
+    return DrGameObject{currentId++};
   }
 
-  static drGameObject makePointLight(
+  static DrGameObject makePointLight(
       float intensity = 10.f, float radius = 0.1f, glm::vec3 color = glm::vec3(1.f));
 
-  drGameObject(const drGameObject &) = delete;
-  drGameObject &operator=(const drGameObject &) = delete;
-  drGameObject(drGameObject &&) = default;
-  drGameObject &operator=(drGameObject &&) = default;
+  DrGameObject(const DrGameObject &) = delete;
+  DrGameObject &operator=(const DrGameObject &) = delete;
+  DrGameObject(DrGameObject &&) = default;
+  DrGameObject &operator=(DrGameObject &&) = default;
 
   id_t getId() { return id; }
 
@@ -82,11 +82,11 @@ class drGameObject {
   TransformComponent transform{};
 
   // Optional pointer components
-  std::shared_ptr<drModel> model{};
+  std::shared_ptr<DrModel> model{};
   std::unique_ptr<PointLightComponent> pointLight = nullptr;
 
  private:
-  drGameObject(id_t objId) : id{objId} {}
+  DrGameObject(id_t objId) : id{objId} {}
 
   id_t id;
 };

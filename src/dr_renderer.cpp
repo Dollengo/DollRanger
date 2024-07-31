@@ -41,15 +41,15 @@ Thank you for doing your part.
 
 namespace dr {
 
-drRenderer::drRenderer(drWindow& window, drDevice& device)
+DrRenderer::DrRenderer(DrWindow& window, DrDevice& device)
     : drWindow{window}, drDevice{device} {
   recreateSwapChain();
   createCommandBuffers();
 }
 
-drRenderer::~drRenderer() { freeCommandBuffers(); }
+DrRenderer::~DrRenderer() { freeCommandBuffers(); }
 
-void drRenderer::recreateSwapChain() {
+void DrRenderer::recreateSwapChain() {
   auto extent = drWindow.getExtent();
   while (extent.width == 0 || extent.height == 0) {
     extent = drWindow.getExtent();
@@ -58,10 +58,10 @@ void drRenderer::recreateSwapChain() {
   vkDeviceWaitIdle(drDevice.device());
 
   if (drSwapChain == nullptr) {
-    drSwapChain = std::make_unique<drSwapChain>(drDevice, extent);
+    drSwapChain = std::make_unique<DrSwapChain>(drDevice, extent);
   } else {
-    std::shared_ptr<drSwapChain> oldSwapChain = std::move(drSwapChain);
-    drSwapChain = std::make_unique<drSwapChain>(drDevice, extent, oldSwapChain);
+    std::shared_ptr<DrSwapChain> oldSwapChain = std::move(drSwapChain);
+    drSwapChain = std::make_unique<DrSwapChain>(drDevice, extent, oldSwapChain);
 
     if (!oldSwapChain->compareSwapFormats(*drSwapChain.get())) {
       throw std::runtime_error("Swap chain image(or depth) format has changed!");
@@ -69,8 +69,8 @@ void drRenderer::recreateSwapChain() {
   }
 }
 
-void drRenderer::createCommandBuffers() {
-  commandBuffers.resize(drSwapChain::MAX_FRAMES_IN_FLIGHT);
+void DrRenderer::createCommandBuffers() {
+  commandBuffers.resize(DrSwapChain::MAX_FRAMES_IN_FLIGHT);
 
   VkCommandBufferAllocateInfo allocInfo{};
   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -84,7 +84,7 @@ void drRenderer::createCommandBuffers() {
   }
 }
 
-void drRenderer::freeCommandBuffers() {
+void DrRenderer::freeCommandBuffers() {
   vkFreeCommandBuffers(
       drDevice.device(),
       drDevice.getCommandPool(),
@@ -93,7 +93,7 @@ void drRenderer::freeCommandBuffers() {
   commandBuffers.clear();
 }
 
-VkCommandBuffer drRenderer::beginFrame() {
+VkCommandBuffer DrRenderer::beginFrame() {
   assert(!isFrameStarted && "Can't call beginFrame while already in progress");
 
   auto result = drSwapChain->acquireNextImage(&currentImageIndex);
@@ -118,7 +118,7 @@ VkCommandBuffer drRenderer::beginFrame() {
   return commandBuffer;
 }
 
-void drRenderer::endFrame() {
+void DrRenderer::endFrame() {
   assert(isFrameStarted && "Can't call endFrame while frame is not in progress");
   auto commandBuffer = getCurrentCommandBuffer();
   if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
@@ -135,10 +135,10 @@ void drRenderer::endFrame() {
   }
 
   isFrameStarted = false;
-  currentFrameIndex = (currentFrameIndex + 1) % drSwapChain::MAX_FRAMES_IN_FLIGHT;
+  currentFrameIndex = (currentFrameIndex + 1) % DrSwapChain::MAX_FRAMES_IN_FLIGHT;
 }
 
-void drRenderer::beginSwapChainRenderPass(VkCommandBuffer commandBuffer) {
+void DrRenderer::beginSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   assert(isFrameStarted && "Can't call beginSwapChainRenderPass if frame is not in progress");
   assert(
       commandBuffer == getCurrentCommandBuffer() &&
@@ -172,7 +172,7 @@ void drRenderer::beginSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 }
 
-void drRenderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer) {
+void DrRenderer::endSwapChainRenderPass(VkCommandBuffer commandBuffer) {
   assert(isFrameStarted && "Can't call endSwapChainRenderPass if frame is not in progress");
   assert(
       commandBuffer == getCurrentCommandBuffer() &&

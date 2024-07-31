@@ -56,7 +56,7 @@ struct QueueFamilyIndices {
   bool isComplete() { return graphicsFamilyHasValue && presentFamilyHasValue; }
 };
 
-class drDevice {
+class DrDevice {
  public:
 #ifdef NDEBUG
   const bool enableValidationLayers = false;
@@ -64,14 +64,14 @@ class drDevice {
   const bool enableValidationLayers = true;
 #endif
 
-  drDevice(drWindow &window);
-  ~drDevice();
+  DrDevice(DrWindow &window);
+  ~DrDevice();
 
   // Not copyable or movable
-  drDevice(const drDevice &) = delete;
-  drDevice &operator=(const drDevice &) = delete;
-  drDevice(drDevice &&) = delete;
-  drDevice &operator=(drDevice &&) = delete;
+  DrDevice(const DrDevice &) = delete;
+  DrDevice &operator=(const DrDevice &) = delete;
+  DrDevice(DrDevice &&) = delete;
+  DrDevice &operator=(DrDevice &&) = delete;
 
   VkCommandPool getCommandPool() { return commandPool; }
   VkDevice device() { return device_; }
@@ -127,7 +127,7 @@ class drDevice {
   VkInstance instance;
   VkDebugUtilsMessengerEXT debugMessenger;
   VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-  drWindow &window;
+  DrWindow &window;
   VkCommandPool commandPool;
 
   VkDevice device_;

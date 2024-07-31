@@ -63,17 +63,17 @@ struct PipelineConfigInfo {
   uint32_t subpass = 0;
 };
 
-class drPipeline {
+class DrPipeline {
  public:
-  drPipeline(
-      drDevice& device,
+  DrPipeline(
+      DrDevice& device,
       const std::string& vertFilepath,
       const std::string& fragFilepath,
       const PipelineConfigInfo& configInfo);
-  ~drPipeline();
+  ~DrPipeline();
 
-  drPipeline(const drPipeline&) = delete;
-  drPipeline& operator=(const drPipeline&) = delete;
+  DrPipeline(const DrPipeline&) = delete;
+  DrPipeline& operator=(const DrPipeline&) = delete;
 
   void bind(VkCommandBuffer commandBuffer);
 
@@ -90,7 +90,7 @@ class drPipeline {
 
   void createShaderModule(const std::vector<char>& code, VkShaderModule* shaderModule);
 
-  drDevice& drDevice;
+  DrDevice& drDevice;
   VkPipeline graphicsPipeline;
   VkShaderModule vertShaderModule;
   VkShaderModule fragShaderModule;

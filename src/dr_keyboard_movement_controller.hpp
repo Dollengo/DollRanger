@@ -54,7 +54,7 @@ class KeyboardMovementController {
     int lookDown = GLFW_KEY_DOWN;
   };
 
-  void moveInPlaneXZ(GLFWwindow* window, float dt, drGameObject& gameObject);
+  void moveInPlaneXZ(GLFWwindow* window, float dt, DrGameObject& gameObject);
 
   KeyMappings keys{};
   float moveSpeed{3.f};

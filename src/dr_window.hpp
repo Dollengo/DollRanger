@@ -41,13 +41,13 @@ Thank you for doing your part.
 #include <string>
 namespace dr {
 
-class drWindow {
+class DrWindow {
  public:
-  drWindow(int w, int h, std::string name);
-  ~drWindow();
+  DrWindow(int w, int h, std::string name);
+  ~DrWindow();
 
-  drWindow(const drWindow &) = delete;
-  drWindow &operator=(const drWindow &) = delete;
+  DrWindow(const DrWindow &) = delete;
+  DrWindow &operator=(const DrWindow &) = delete;
 
   bool shouldClose() { return glfwWindowShouldClose(window); }
   VkExtent2D getExtent() { return {static_cast<uint32_t>(width), static_cast<uint32_t>(height)}; }

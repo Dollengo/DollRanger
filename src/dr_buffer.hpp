@@ -39,19 +39,19 @@ Thank you for doing your part.
 
 namespace dr {
 
-class drBuffer {
+class DrBuffer {
  public:
-  drBuffer(
-      drDevice& device,
+  DrBuffer(
+      DrDevice& device,
       VkDeviceSize instanceSize,
       uint32_t instanceCount,
       VkBufferUsageFlags usageFlags,
       VkMemoryPropertyFlags memoryPropertyFlags,
       VkDeviceSize minOffsetAlignment = 1);
-  ~drBuffer();
+  ~DrBuffer();
 
-  drBuffer(const drBuffer&) = delete;
-  drBuffer& operator=(const drBuffer&) = delete;
+  DrBuffer(const DrBuffer&) = delete;
+  DrBuffer& operator=(const DrBuffer&) = delete;
 
   VkResult map(VkDeviceSize size = VK_WHOLE_SIZE, VkDeviceSize offset = 0);
   void unmap();
@@ -78,7 +78,7 @@ class drBuffer {
  private:
   static VkDeviceSize getAlignment(VkDeviceSize instanceSize, VkDeviceSize minOffsetAlignment);
 
-  drDevice& drDevice;
+  DrDevice& DrDevice;
   void* mapped = nullptr;
   VkBuffer buffer = VK_NULL_HANDLE;
   VkDeviceMemory memory = VK_NULL_HANDLE;

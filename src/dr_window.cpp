@@ -39,16 +39,16 @@ Thank you for doing your part.
 
 namespace dr {
 
-drWindow::drWindow(int w, int h, std::string name) : width{w}, height{h}, windowName{name} {
+DrWindow::DrWindow(int w, int h, std::string name) : width{w}, height{h}, windowName{name} {
   initWindow();
 }
 
-drWindow::~drWindow() {
+DrWindow::~DrWindow() {
   glfwDestroyWindow(window);
   glfwTerminate();
 }
 
-void drWindow::initWindow() {
+void DrWindow::initWindow() {
   glfwInit();
   glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
   glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
@@ -58,14 +58,14 @@ void drWindow::initWindow() {
   glfwSetFramebufferSizeCallback(window, framebufferResizeCallback);
 }
 
-void drWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
+void DrWindow::createWindowSurface(VkInstance instance, VkSurfaceKHR *surface) {
   if (glfwCreateWindowSurface(instance, window, nullptr, surface) != VK_SUCCESS) {
     throw std::runtime_error("failed to craete window surface");
   }
 }
 
-void drWindow::framebufferResizeCallback(GLFWwindow *window, int width, int height) {
-  auto drWindow = reinterpret_cast<drWindow *>(glfwGetWindowUserPointer(window));
+void DrWindow::framebufferResizeCallback(GLFWwindow *window, int width, int height) {
+  auto drWindow = reinterpret_cast<DrWindow *>(glfwGetWindowUserPointer(window));
   drWindow->framebufferResized = true;
   drWindow->width = width;
   drWindow->height = height;

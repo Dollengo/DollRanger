@@ -44,13 +44,13 @@ Thank you for doing your part.
 #include <vector>
 
 namespace dr {
-class drRenderer {
+class DrRenderer {
  public:
-  drRenderer(drWindow &window, drDevice &device);
-  ~drRenderer();
+  DrRenderer(DrWindow &window, DrDevice &device);
+  ~DrRenderer();
 
-  drRenderer(const drRenderer &) = delete;
-  drRenderer &operator=(const drRenderer &) = delete;
+  DrRenderer(const DrRenderer &) = delete;
+  DrRenderer &operator=(const DrRenderer &) = delete;
 
   VkRenderPass getSwapChainRenderPass() const { return drSwapChain->getRenderPass(); }
   float getAspectRatio() const { return drSwapChain->extentAspectRatio(); }
@@ -76,9 +76,9 @@ class drRenderer {
   void freeCommandBuffers();
   void recreateSwapChain();
 
-  drWindow &drWindow;
-  drDevice &drDevice;
-  std::unique_ptr<drSwapChain> drSwapChain;
+  DrWindow &drWindow;
+  DrDevice &drDevice;
+  std::unique_ptr<DrSwapChain> drSwapChain;
   std::vector<VkCommandBuffer> commandBuffers;
 
   uint32_t currentImageIndex;

@@ -46,7 +46,7 @@ Thank you for doing your part.
 #include <vector>
 
 namespace dr {
-class drModel {
+class DrModel {
  public:
   struct Vertex {
     glm::vec3 position{};
@@ -70,14 +70,14 @@ class drModel {
     void loadModel(const std::string &filepath);
   };
 
-  drModel(drDevice &device, const drModel::Builder &builder);
-  ~drModel();
+  DrModel(DrDevice &device, const DrModel::Builder &builder);
+  ~DrModel();
 
-  drModel(const drModel &) = delete;
-  drModel &operator=(const drModel &) = delete;
+  DrModel(const DrModel &) = delete;
+  DrModel &operator=(const DrModel &) = delete;
 
-  static std::unique_ptr<drModel> createModelFromFile(
-      drDevice &device, const std::string &filepath);
+  static std::unique_ptr<dDrModel> createModelFromFile(
+      DrDevice &device, const std::string &filepath);
 
   void bind(VkCommandBuffer commandBuffer);
   void draw(VkCommandBuffer commandBuffer);
@@ -86,13 +86,13 @@ class drModel {
   void createVertexBuffers(const std::vector<Vertex> &vertices);
   void createIndexBuffers(const std::vector<uint32_t> &indices);
 
-  drDevice &drDevice;
+  DrDevice &drDevice;
 
-  std::unique_ptr<drBuffer> vertexBuffer;
+  std::unique_ptr<DrBuffer> vertexBuffer;
   uint32_t vertexCount;
 
   bool hasIndexBuffer = false;
-  std::unique_ptr<drBuffer> indexBuffer;
+  std::unique_ptr<DrBuffer> indexBuffer;
   uint32_t indexCount;
 };
 }  // namespace dr

@@ -45,18 +45,18 @@ Thank you for doing your part.
 
 namespace dr {
 
-class drSwapChain {
+class DrSwapChain {
  public:
   static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
-  drSwapChain(drDevice &deviceRef, VkExtent2D windowExtent);
-  drSwapChain(
-      drDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<drSwapChain> previous);
+  DrSwapChain(DrDevice &deviceRef, VkExtent2D windowExtent);
+  DrSwapChain(
+      DrDevice &deviceRef, VkExtent2D windowExtent, std::shared_ptr<DrSwapChain> previous);
 
-  ~drSwapChain();
+  ~DrSwapChain();
 
-  drSwapChain(const drSwapChain &) = delete;
-  drSwapChain &operator=(const drSwapChain &) = delete;
+  DrSwapChain(const DrSwapChain &) = delete;
+  DrSwapChain &operator=(const DrSwapChain &) = delete;
 
   VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
   VkRenderPass getRenderPass() { return renderPass; }
@@ -75,7 +75,7 @@ class drSwapChain {
   VkResult acquireNextImage(uint32_t *imageIndex);
   VkResult submitCommandBuffers(const VkCommandBuffer *buffers, uint32_t *imageIndex);
 
-  bool compareSwapFormats(const drSwapChain &swapChain) const {
+  bool compareSwapFormats(const DrSwapChain &swapChain) const {
     return swapChain.swapChainDepthFormat == swapChainDepthFormat &&
            swapChain.swapChainImageFormat == swapChainImageFormat;
   }
@@ -109,11 +109,11 @@ class drSwapChain {
   std::vector<VkImage> swapChainImages;
   std::vector<VkImageView> swapChainImageViews;
 
-  drDevice &device;
+  DrDevice &device;
   VkExtent2D windowExtent;
 
   VkSwapchainKHR swapChain;
-  std::shared_ptr<drSwapChain> oldSwapChain;
+  std::shared_ptr<DrSwapChain> oldSwapChain;
 
   std::vector<VkSemaphore> imageAvailableSemaphores;
   std::vector<VkSemaphore> renderFinishedSemaphores;

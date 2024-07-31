@@ -62,8 +62,8 @@ struct FrameInfo {
   int frameIndex;
   float frameTime;
   VkCommandBuffer commandBuffer;
-  drCamera &camera;
+  DrCamera &camera;
   VkDescriptorSet globalDescriptorSet;
-  drGameObject::Map &gameObjects;
+  DrGameObject::Map &gameObjects;
 };
 }  // namespace dr
