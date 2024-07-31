@@ -82,7 +82,7 @@ class FirstApp {
   DrRenderer drRenderer(drWindow, drDevice);
 
   // note: order of declarations matters
-  std::unique_ptr<drDescriptorPool> globalPool{};
+  std::unique_ptr<DrDescriptorPool> globalPool{};
   DrGameObject::Map gameObjects;
 };
 }  // namespace dr
