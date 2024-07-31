@@ -77,7 +77,7 @@ class FirstApp {
 
   DrWindow drWindow{WIDTH, HEIGHT, "DollRangerTest"};
   DrDevice drDevice{drWindow};
-  DrRenderer drRenderer{drWindow, drDevice}
+  DrRenderer drRenderer{drWindow, drDevice};
 
   // note: order of declarations matters
   std::unique_ptr<DrDescriptorPool> globalPool{};
