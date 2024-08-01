@@ -47,34 +47,33 @@ These instructions will help you get a copy of the project up and running on you
 - GLFW
 - GCC or MinGW (for Windows)
 - Git
+- GLFW
+- glm
 
 ### Installation
 
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/Dollengo/DollRanger.git
+git clone https://github.com/Dollengo/DollRanger
 cd DollRanger
 ```
 
-2. **Configure the build:**
+2. **Setup the engine:**
 
-Make sure to set the paths to the Vulkan SDK and GLFW in a `.env.cmake` file at the root of the project.
-
-Example `.env.cmake`:
-
-```cmake
-set(VULKAN_SDK_PATH "path/to/vulkan/sdk")
-set(GLFW_PATH "path/to/glfw")
+```bash
+./unixSetup.sh
 ```
+or just execute the `mingwSetup.bat`
 
 3. **Build the project:**
 
 ```bash
-mkdir build
-cd build
-cmake ..
-make
+./unixBuild.sh
+```
+or
+```bat
+./mingwBuild.bat
 ```
 
 ### Usage
@@ -86,6 +85,10 @@ To run the application, simply execute the built binary:
 ```
 
 You can modify and extend the engine by editing the source files in the `src` directory. The main application logic is found in `dr_first_app.cpp`.
+
+### Create projects:
+
+For create your projects/games, create a directory in `Projects`, and create the main.cpp, import `dr_first_app.cpp`, and create a template. For use ECS, physics and others, import src/(lib).
 
 ## Contributing
 
@@ -135,8 +138,10 @@ Go to the original repository on GitHub and click "New Pull Request" to submit y
 - **Vulkan Tutorial Follow:** [YouTube](https://youtu.be/Y9U9IE0gVHA?si=tkCGbDV9H_3cLwis)
 - **Flecs [fast and lightweight Entity Component System]:** [Flecs GitHub](https://github.com/SanderMertens/flecs) | [Flecs.dev](https://www.flecs.dev/)
 - **ImGui [visual library]:** [ImGui GitHub](https://github.com/ocornut/imgui)
-- **SDL_Mixer [audio management]:** [SDL_mixer GitHub](https://github.com/libsdl-org/SDL_mixer)
+- **SDL [audio management]:** [SDL_GitHub](https://github.com/libsdl-org/SDL)
 - **Dollengo:** [GitHub](https://github.com/dollengo) | [Website](https://dollengo.vercel.app)
+
+- And **glm**, **GLFW**, and others renderers...
 
 ## License
 
