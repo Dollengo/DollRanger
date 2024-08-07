@@ -143,4 +143,4 @@ Go to the original repository on GitHub and click "New Pull Request" to submit y
 
 ## License
 
-DollRanger is licensed under the MIT License. See the `LICENSE` file for more details.
+DollRanger is licensed under the GPL-3.0 license. See the `LICENSE` file for more details.
