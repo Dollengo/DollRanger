@@ -1,0 +1,166 @@
+include(./.env.cmake OPTIONAL RESULT_VARIABLE LOCAL_ENV)
+message(STATUS "Local .env.cmake: ${LOCAL_ENV}")
+
+cmake_minimum_required(VERSION 3.11.0)
+
+set(NAME DollRanger)
+
+message(STATUS "using ${CMAKE_GENERATOR}")
+if (CMAKE_GENERATOR STREQUAL "MinGW Makefiles")
+    if (NOT MINGW_PATH) 
+      message(WARNING "MINGW_PATH not set in .env.cmake")
+      set(USE_MINGW "False")
+    else()
+      set(USE_MINGW "True")
+      set(CMAKE_C_COMPILER ${MINGW_PATH}/bin/gcc.exe)
+      set(CMAKE_CXX_COMPILER ${MINGW_PATH}/bin/g++.exe)
+    endif()
+endif()
+
+project(${NAME} VERSION 0.23.0)
+
+# 1. Set VULKAN_SDK_PATH in .env.cmake to target specific vulkan version
+if (DEFINED VULKAN_SDK_PATH)
+  set(Vulkan_INCLUDE_DIRS "${VULKAN_SDK_PATH}/Include")
+  set(Vulkan_LIBRARIES "${VULKAN_SDK_PATH}/Lib")
+  set(Vulkan_FOUND "True")
+else()
+  find_package(Vulkan QUIET)
+  if (Vulkan_FOUND)
+    message(STATUS "Found Vulkan: $ENV{VULKAN_SDK}")
+  else()
+    message(WARNING "Could not find Vulkan library!")
+    set(Vulkan_FOUND "False")
+  endif()
+endif()
+
+if (Vulkan_FOUND)
+  message(STATUS "Using Vulkan library at: ${Vulkan_LIBRARIES}")
+else()
+  message(WARNING "Skipping Vulkan configuration due to missing library")
+endif()
+
+# 2. Set GLFW_PATH in .env.cmake to target specific glfw
+if (DEFINED GLFW_PATH)
+  message(STATUS "Using GLFW path specified in .env")
+  set(GLFW_INCLUDE_DIRS "${GLFW_PATH}/include")
+  if (MSVC)
+    set(GLFW_LIB "${GLFW_PATH}/lib-vc2019")
+  elseif (CMAKE_GENERATOR STREQUAL "MinGW Makefiles")
+    message(STATUS "Using MinGW for GLFW")
+    set(GLFW_LIB "${GLFW_PATH}/lib-mingw-w64")
+  endif()
+else()
+  find_package(glfw3 3.3 QUIET)
+  if (glfw3_FOUND)
+    set(GLFW_LIB glfw)
+    message(STATUS "Found GLFW")
+  else()
+    message(WARNING "Could not find GLFW library!")
+    set(GLFW_FOUND "False")
+  endif()
+endif()
+
+if (GLFW_FOUND)
+  message(STATUS "Using GLFW library at: ${GLFW_LIB}")
+else()
+  message(WARNING "Skipping GLFW configuration due to missing library")
+endif()
+
+include_directories(external)
+
+# If TINYOBJ_PATH not specified in .env.cmake, try fetching from git repo
+if (NOT TINYOBJ_PATH)
+  message(STATUS "TINYOBJ_PATH not specified in .env.cmake, using src/tinyobjloader")
+  set(TINYOBJ_PATH src/tinyobjloader)
+endif()
+
+file(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/build")
+
+if (WIN32)
+  message(STATUS "CREATING BUILD FOR WINDOWS")
+
+  if (USE_MINGW STREQUAL "True")
+    target_include_directories(${PROJECT_NAME} PUBLIC
+      ${MINGW_PATH}/include
+    )
+    target_link_directories(${PROJECT_NAME} PUBLIC
+      ${MINGW_PATH}/lib
+    )
+  endif()
+
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/Projects
+    ${Vulkan_INCLUDE_DIRS}
+    ${TINYOBJ_PATH}
+    ${GLFW_INCLUDE_DIRS}
+    ${GLM_PATH}
+    ${PROJECT_SOURCE_DIR}/src/SDL_mixer
+    ${PROJECT_SOURCE_DIR}/src/sling_shot_community
+    ${PROJECT_SOURCE_DIR}/src/qtbase
+    ${PROJECT_SOURCE_DIR}/src/physics
+    ${PROJECT_SOURCE_DIR}/src/flecs
+  )
+
+  target_link_directories(${PROJECT_NAME} PUBLIC
+    ${Vulkan_LIBRARIES}
+    ${GLFW_LIB}
+  )
+
+  target_link_libraries(${PROJECT_NAME} glfw3 vulkan-1)
+elseif (UNIX)
+  message(STATUS "CREATING BUILD FOR UNIX")
+  target_include_directories(${PROJECT_NAME} PUBLIC
+    ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/Projects
+    ${TINYOBJ_PATH}
+    ${PROJECT_SOURCE_DIR}/src/SDL_mixer
+    ${PROJECT_SOURCE_DIR}/src/sling_shot_community
+    ${PROJECT_SOURCE_DIR}/src/qtbase
+    ${PROJECT_SOURCE_DIR}/src/physics
+    ${PROJECT_SOURCE_DIR}/src/flecs
+  )
+  target_link_libraries(${PROJECT_NAME} glfw ${Vulkan_LIBRARIES})
+endif()
+
+############## Build SHADERS #######################
+
+# Find all vertex and fragment sources within shaders directory
+find_program(GLSL_VALIDATOR glslangValidator HINTS 
+  ${Vulkan_GLSLANG_VALIDATOR_EXECUTABLE} 
+  /usr/bin 
+  /usr/local/bin 
+  ${VULKAN_SDK_PATH}/Bin
+  ${VULKAN_SDK_PATH}/Bin32
+  $ENV{VULKAN_SDK}/Bin/ 
+  $ENV{VULKAN_SDK}/Bin32/
+)
+
+if (GLSL_VALIDATOR)
+  # Get all .vert and .frag files in shaders directory
+  file(GLOB_RECURSE GLSL_SOURCE_FILES
+    "${PROJECT_SOURCE_DIR}/shaders/*.frag"
+    "${PROJECT_SOURCE_DIR}/shaders/*.vert"
+  )
+
+  foreach(GLSL ${GLSL_SOURCE_FILES})
+    get_filename_component(FILE_NAME ${GLSL} NAME)
+    set(SPIRV "${PROJECT_SOURCE_DIR}/shaders/${FILE_NAME}.spv")
+    add_custom_command(
+      OUTPUT ${SPIRV}
+      COMMAND ${GLSL_VALIDATOR} -V ${GLSL} -o ${SPIRV}
+      DEPENDS ${GLSL})
+    list(APPEND SPIRV_BINARY_FILES ${SPIRV})
+  endforeach(GLSL)
+
+  add_custom_target(Shaders DEPENDS ${SPIRV_BINARY_FILES})
+else()
+  message(WARNING "GLSL validator not found, shader compilation will be skipped")
+endif()
