@@ -97,6 +97,7 @@ if (WIN32)
 
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/Projects
     ${Vulkan_INCLUDE_DIRS}
     ${TINYOBJ_PATH}
     ${GLFW_INCLUDE_DIRS}
@@ -118,6 +119,7 @@ elseif (UNIX)
   message(STATUS "CREATING BUILD FOR UNIX")
   target_include_directories(${PROJECT_NAME} PUBLIC
     ${PROJECT_SOURCE_DIR}/src
+    ${PROJECT_SOURCE_DIR}/Projects
     ${TINYOBJ_PATH}
     ${PROJECT_SOURCE_DIR}/src/SDL_mixer
     ${PROJECT_SOURCE_DIR}/src/sling_shot_community
